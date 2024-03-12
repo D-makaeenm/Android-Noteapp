@@ -26,4 +26,3 @@ public abstract class RoomDB extends RoomDatabase {
 
     public abstract MainDAO mainDAO();
 }
-

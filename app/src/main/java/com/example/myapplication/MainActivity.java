@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         updateRecycler(notes);
 
-        fab_add.setOnClickListener(new View.OnClickListener() {
+        fab_add.setOnClickListener(new View.OnClickListener() {//thêm note
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
     }
 
-    private void filter(String newText) {
+    private void filter(String newText) {//tìm kiếm ghi chú
             List<Notes> filteredList = new ArrayList<>();
             for(Notes singleNote : notes){
                 if(singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         super.onActivityResult(requestCode, resultCode, data);
         //thêm ghu chú
         if(requestCode==101){
-            if(resultCode == Activity.RESULT_OK){
+            if(resultCode == Activity.RESULT_OK){//thêm note
                 Notes new_notes = (Notes) data.getSerializableExtra("note");
                 database.mainDAO().insert(new_notes);
                 notes.clear();
@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView.setAdapter(notesListAdapter);
     }
 
-    private final NotesClickListener notesClickListener = new NotesClickListener() {
+    private final NotesClickListener notesClickListener = new NotesClickListener() {//tương tác với ghi chú
         @Override
-        public void onClick(Notes notes) {
+        public void onClick(Notes notes) {//gọi update qua mã 102
             Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
             intent.putExtra("old_note", notes);
             startActivityForResult(intent, 102);
@@ -122,14 +122,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
 
         @Override
-        public void onLongClick(Notes notes, CardView cardView) {
+        public void onLongClick(Notes notes, CardView cardView) {//hiển thị menu ghim xóa khi longclick
             selectedNote = new Notes();
             selectedNote = notes;
             showPopup(cardView);
         }
     };
 
-    private void showPopup(CardView cardView) {
+    private void showPopup(CardView cardView) {//hiển thị menu ghim xóa khi longclick
         PopupMenu popupMenu = new PopupMenu(this, cardView);
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup_menu);
@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.pin) {
+    public boolean onMenuItemClick(MenuItem item) {//action trong menu popup
+        if (item.getItemId() == R.id.pin) {//ghim
             if (selectedNote.isPinned()) {
                 database.mainDAO().pin(selectedNote.getID(), false);
                 Toast.makeText(MainActivity.this, "Unpinned!", Toast.LENGTH_SHORT).show();
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             notes.addAll(database.mainDAO().getAll());
             notesListAdapter.notifyDataSetChanged();
             return true;
-        } else if (item.getItemId() == R.id.delete) {
+        } else if (item.getItemId() == R.id.delete) {//xóa
             database.mainDAO().delete(selectedNote);
             notes.remove(selectedNote);
             notesListAdapter.notifyDataSetChanged();

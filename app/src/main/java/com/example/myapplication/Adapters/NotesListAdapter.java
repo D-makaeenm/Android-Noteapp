@@ -22,7 +22,7 @@ import java.util.Random;
 public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
     Context context;
     List<Notes> list;
-    NotesClickListener listener;
+    NotesClickListener listener;//Xử lý sự kiện click vào notes
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
@@ -99,7 +99,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
         notifyDataSetChanged();
     }
 }
-class NotesViewHolder extends RecyclerView.ViewHolder{
+class NotesViewHolder extends RecyclerView.ViewHolder{//show note
     CardView notes_container;
     TextView textView_title, textView_notes, textView_date;
     ImageView imageView_pin;
